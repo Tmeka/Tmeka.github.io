@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+
+<link href='/fullcalendar.min.css' rel='stylesheet'/>
+<link href='/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery.min.js'></script>
+<!-- <script src="http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery-ui.custom.min.js"></script> -->
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+
+<script>
+
+  $(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+      defaultView: 'month',
+
+      header: {
+        center: 'addEventButton'
+      },
+
+      events: function (start, end, timezone, callback) {
+          $.ajax({
+              url: 'dates.json',
+              type: "GET",
+              datatype: 'json',
+              success: function ( doc ) {
+                  var events = [];
+                  if ( doc != undefined && doc.length > 0 ) {
+                      doc.forEach( function( entry ) {
+                          events.push({
+                              title: entry.title,
+                              start: entry.start,
+                              end:   entry.end
+                          });
+                      });
+                  }
+                  callback(events);
+              }, error: function (err) {
+                  alert('Error in fetching data');
+              }
+          });
+      },
+
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function() {
+            var titleStr = prompt('Enter the name of the event');
+            var dateStrStart = prompt('Enter start date in YYYY-MM-DD format');
+            var startDate = moment(dateStrStart);
+            var dateStrEnd = prompt('Enter end date in YYYY-MM-DD format');
+            var endDate = moment(dateStrEnd);
+
+            if (startDate.isValid() && endDate.isValid()) {
+              $('#calendar').fullCalendar('renderEvent', {
+                title: titleStr,
+                start: startDate,
+                end: endDate,
+                allDay: true
+              });
+
+            } else {
+              alert('Invalid date.');
+            }
+          }
+        }
+      },
+
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+
+    });
+
+  });
+
+</script>
+<style>
+
+  body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+</style>
+</head>
+<body>
+
+  <div id='calendar'></div>
+
+</body>
+</html>
