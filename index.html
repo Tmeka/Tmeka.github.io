@@ -1,9 +1,76 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title></title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://blackrockdigital.github.io/startbootstrap-simple-sidebar/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://blackrockdigital.github.io/startbootstrap-simple-sidebar/css/simple-sidebar.css" rel="stylesheet">
+
 </head>
+
 <body>
-	<p>index.html</p>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                        우리만의 공간
+                    </a>
+                </li>
+                <li>
+                    <a href="/calendar">Calendar</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1>Welcome to our virtual livingroom</h1>
+                <p>This space is for Elbert and Faith to post memories, plan schedules, and play together. As of now (11/16/18) this site only supports a calendar function. Eventually, I would like to build/design this space with Faith and decorate it into something beautiful and inspiring. Here is a list of functions to be added in the future:</p>
+				<ul class="list-group">
+				  <li class="list-group-item list-group-item-success">US Map (Track what states we visited)</li>
+				  <li class="list-group-item list-group-item-info">Photo album (Collage of our photos)</li>
+				  <li class="list-group-item list-group-item-warning">Memo posts (Stickers!)</li>
+				  <li class="list-group-item list-group-item-danger">Communication tool (Instant messaging)</li>
+				</ul>
+				<br>
+                <p>This website is dedicated to Faith.</p>
+                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://blackrockdigital.github.io/startbootstrap-simple-sidebar/vendor/jquery/jquery.min.js"></script>
+    <script src="https://blackrockdigital.github.io/startbootstrap-simple-sidebar/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
 </body>
+
 </html>

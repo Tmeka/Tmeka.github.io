@@ -2,14 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8' />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <link href='/fullcalendar.min.css' rel='stylesheet'/>
 <link href='/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
-<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>
-<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery.min.js'></script>
+<script src='https://fullcalendar.io/releases/fullcalendar/3.9.0/lib/moment.min.js'></script>
+<script src='https://fullcalendar.io/releases/fullcalendar/3.9.0/lib/jquery.min.js'></script>
 <!-- <script src="http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery-ui.custom.min.js"></script> -->
-<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+<script src='https://fullcalendar.io/releases/fullcalendar/3.9.0/fullcalendar.min.js'></script>
 
 <script>
 
@@ -17,7 +19,8 @@
 
     $('#calendar').fullCalendar({
       defaultView: 'month',
-
+      // light steel blue complimenting lavendar blush
+      eventColor: '#B0C4DE',
       header: {
         center: 'addEventButton'
       },
@@ -45,22 +48,82 @@
           });
       },
 
+      // eventClick: function (calEvent, jsEvent, view) {
+
+      //     event.title = prompt("Edit the name of this event");
+
+      // },
+
+      eventRender: function(event, element) {
+
+
+          element.bind('dblclick', function() {
+             let field = event.title;
+
+             $.ajax({
+              url: 'dates.json',
+              data: field,
+              type: 'DELETE',
+              success: () => {
+                console.log("Delete successful");
+                  $('#calendar').fullCalendar('removeEvents', function (event) {
+                      return (event.title == field);
+                  });
+              }, error: () => {
+                alert("Error in deleting data");
+              }
+             })
+          });
+
+      },
+
       customButtons: {
         addEventButton: {
           text: 'add event...',
           click: function() {
-            var titleStr = prompt('Enter the name of the event');
+
+            var dateObject = {};
+
+            var titleStr = prompt('Enter the name of this event');
             var dateStrStart = prompt('Enter start date in YYYY-MM-DD format');
             var startDate = moment(dateStrStart);
+            // console.log(startDate);
+            // console.log(Object.getOwnPropertyNames(startDate));
             var dateStrEnd = prompt('Enter end date in YYYY-MM-DD format');
             var endDate = moment(dateStrEnd);
+            var allDay = false;
+
+            // dateObject.push(titleStr);
+            // dateObject.push(startDate);
+            // dateObject.push(endDate);
+            // dateObject.push(allDay);
+            // dateObject = JSON.stringify(date)
+
+            dateObject['title'] = titleStr;
+            dateObject['start'] = String(startDate._i);
+            dateObject['end'] = String(endDate._i);
+            dateObject['allDay'] = false;
+            console.log(dateObject);
 
             if (startDate.isValid() && endDate.isValid()) {
               $('#calendar').fullCalendar('renderEvent', {
                 title: titleStr,
                 start: startDate,
                 end: endDate,
-                allDay: true
+                allDay: false
+              });
+
+              $.ajax({
+                url: 'dates.json',
+                type: "POST",
+                data: dateObject,
+                datatype: 'json',
+                success: (doc) => {
+                  console.log("Post was successful");
+                }, error: (err) => {
+                  alert("Error occured during post");
+                }
+
               });
 
             } else {
