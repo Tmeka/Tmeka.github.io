@@ -54,10 +54,12 @@ app.post('/addEvent', (req, res) => {
 								  end: req.body.start, allDay: req.body.allDay });
 	schedule.save()
 	.then(item => {
-		res.send("schedule saved to database!");
+		res.sendfile(__dirname + '/calendar.html');
+		console.log("Saved successfully");
 	})
 	.catch(err => {
-		res.status(400).send("unable to save to database");
+		res.sendfile(__dirname + '/calendar.html');
+		console.log("Event did not save");
 	});
 
 });
