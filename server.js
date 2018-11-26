@@ -48,7 +48,7 @@ app.get('/dates.json', (req, res) => {
 
 });
 
-app.post('/addEvent', (req, res) => {
+app.post('/calendar', (req, res) => {
 
 	let schedule = new Schedule({ title: req.body.title, start: req.body.start, 
 								  end: req.body.start, allDay: req.body.allDay });
